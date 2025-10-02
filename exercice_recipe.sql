@@ -3,7 +3,7 @@ de façon décroissante sur la durée de réalisation */
 SELECT recipe_name AS rn, preparation_time AS pt, category_name
 FROM recipe
 INNER JOIN category ON recipe.id_category = category.id_category
-ORDER BY preparation_time DESC
+ORDER BY pt DESC
 
 /* En modifiant la requête précédente, faites apparaître le nombre d’ingrédients nécessaire par recette.
  */
