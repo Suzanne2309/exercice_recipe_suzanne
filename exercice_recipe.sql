@@ -57,8 +57,31 @@ DELETE FROM recipe r
 WHERE r.id_recipe = 2
 
 /* Afficher le prix total de la recette n°5 */
-SELECT ri.id_recipe, SUM(i.price * ri.quantity) AS recipe_price
+SELECT ri.id_recipe, ROUND(SUM(i.price * ri.quantity), 2) AS recipe_price
 FROM ingredient i
 INNER JOIN recipe_ingredients ri ON i.id_ingredient = ri.id_ingredient
 WHERE ri.id_recipe = 5
 GROUP BY ri.id_recipe
+
+/* Afficher le détail de la recette n°5 (liste des ingrédients, quantités et prix) */
+SELECT ri.id_recipe, i.ingredient_name, ri.quantity, i.price
+FROM ingredient i
+INNER JOIN recipe_ingredients ri ON i.id_ingredient = ri.id_ingredient
+WHERE ri.id_recipe = 5
+
+/*  Ajouter un ingrédient en base de données : Curcumin, unité : cuillère à café, prix : 2.5 €*/
+INSERT INTO ingredient
+VALUES ("52", "curcumin", "cuillere_cafe", "2.5")
+
+/* Modifier le prix de l’ingrédient n°12 (prix à votre convenance) */
+UPDATE ingredient i
+SET i.price = 15
+WHERE i.id_ingredient = 12
+
+/* Afficher le nombre de recettes par catégories : X entrées, Y plats, Z desserts */
+SELECT COUNT(id_recipe), c.category_name
+FROM category c
+INNER JOIN recipe r ON r.id_category = c.id_category
+GROUP BY c.id_category, c.category_name
+
+/*  Afficher les recettes qui contiennent l’ingrédient « Poulet » */
