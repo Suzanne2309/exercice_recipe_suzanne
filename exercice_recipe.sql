@@ -1,11 +1,8 @@
-/* Afficher toutes les recettes disponibles et leurs informations  */
-SELECT * 
-FROM recipe
-
 /* Afficher toutes les recettes disponibles (nom de la recette, catégorie et temps de préparation) triées 
 de façon décroissante sur la durée de réalisation */
-SELECT * 
+SELECT recipe_name AS rn, preparation_time AS pt, category_name
 FROM recipe
+INNER JOIN category ON recipe.id_category = category.id_category
 ORDER BY preparation_time DESC
 
 /* En modifiant la requête précédente, faites apparaître le nombre d’ingrédients nécessaire par recette.
