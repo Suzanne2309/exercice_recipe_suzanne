@@ -43,3 +43,7 @@ VALUES
 
 /* Modifier le nom de la recette ayant comme identifiant id_recette = 3 (nom de la recette à votre 
 convenance) */
+UPDATE recipe r
+SET r.recipe_name = 'mayo_oeuf'
+WHERE r.id_recipe = 3
+
