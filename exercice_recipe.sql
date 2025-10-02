@@ -47,3 +47,18 @@ UPDATE recipe r
 SET r.recipe_name = 'mayo_oeuf'
 WHERE r.id_recipe = 3
 
+/*  Supprimer la recette n°2 de la base de données */
+
+/* Requête 1*/
+DELETE FROM recipe_ingredients ri
+WHERE ri.id_recipe = 2
+/* Requête 2 */
+DELETE FROM recipe r
+WHERE r.id_recipe = 2
+
+/* Afficher le prix total de la recette n°5 */
+SELECT ri.id_recipe, SUM(i.price * ri.quantity) AS recipe_price
+FROM ingredient i
+INNER JOIN recipe_ingredients ri ON i.id_ingredient = ri.id_ingredient
+WHERE ri.id_recipe = 5
+GROUP BY ri.id_recipe
