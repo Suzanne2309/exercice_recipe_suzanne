@@ -87,6 +87,14 @@ GROUP BY c.id_category, c.category_name
 /*  Afficher les recettes qui contiennent l’ingrédient « Poulet » */
 SELECT r.recipe_name, i.ingredient_name
 FROM ingredient i
-INNER JOIN recipe r ON r.id_recipe = i.id_ingredient
-INNER JOIN recipe_ingredients ri ON ri.id_recipe = r.id_recipe
+INNER JOIN recipe_ingredients ri ON ri.id_ingredient = i.id_ingredient
+INNER JOIN recipe r ON r.id_recipe = ri.id_recipe
 WHERE i.ingredient_name LIKE "%poulet%"
+/* Petit schéma à l'écrit pour m'aider à trouver la logique*/
+
+/*  Mettez à jour toutes les recettes en diminuant leur temps de préparation de 5 minutes */
+UPDATE recipe r
+SET r.preparation_time = r.preparation_time - 5
+/* J'ai hésité à mettre une condition WHERE mais voulant modifier TOUS les temps de préparation, je me suis dit qu'il y avait pas besoin */
+
+/* Afficher les recettes qui ne nécessitent pas d’ingrédients coûtant plus de 2€ par unité de mesure */
