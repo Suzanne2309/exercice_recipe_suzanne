@@ -98,3 +98,28 @@ SET r.preparation_time = r.preparation_time - 5
 /* J'ai hésité à mettre une condition WHERE mais voulant modifier TOUS les temps de préparation, je me suis dit qu'il y avait pas besoin */
 
 /* Afficher les recettes qui ne nécessitent pas d’ingrédients coûtant plus de 2€ par unité de mesure */
+SELECT r.recipe_name
+FROM recipe r
+WHERE r.recipe_name NOT IN (
+SELECT r.recipe_name
+FROM recipe r
+INNER JOIN recipe_ingredients ri ON ri.id_recipe = r.id_recipe
+INNER JOIN ingredient i ON i.id_ingredient = ri.id_ingredient
+WHERE i.price >2)
+
+/*  Afficher la / les recette(s) les plus rapides à préparer */
+SELECT r.recipe_name
+FROM recipe r
+WHERE r.preparation_time = (SELECT MIN(r.preparation_time)
+FROM recipe r)
+
+/* Trouver les recettes qui ne nécessitent aucun ingrédient (par exemple la recette de la tasse d’eau 
+chaude qui consiste à verser de l’eau chaude dans une tasse) */
+
+
+/* Trouver les ingrédients qui sont utilisés dans au moins 3 recettes */
+
+/* Ajouter un nouvel ingrédient à une recette spécifique */
+
+/*  Bonus : Trouver la recette la plus coûteuse de la base de données (il peut y avoir des ex aequo, il est 
+donc exclu d’utiliser la clause LIMIT) */
