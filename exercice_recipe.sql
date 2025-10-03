@@ -85,3 +85,8 @@ INNER JOIN recipe r ON r.id_category = c.id_category
 GROUP BY c.id_category, c.category_name
 
 /*  Afficher les recettes qui contiennent l’ingrédient « Poulet » */
+SELECT r.recipe_name, i.ingredient_name
+FROM ingredient i
+INNER JOIN recipe r ON r.id_recipe = i.id_ingredient
+INNER JOIN recipe_ingredients ri ON ri.id_recipe = r.id_recipe
+WHERE i.ingredient_name LIKE "%poulet%"
