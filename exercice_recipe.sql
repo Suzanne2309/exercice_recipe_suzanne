@@ -48,7 +48,6 @@ SET r.recipe_name = 'mayo_oeuf'
 WHERE r.id_recipe = 3
 
 /*  Supprimer la recette n°2 de la base de données */
-
 /* Requête 1*/
 DELETE FROM recipe_ingredients ri
 WHERE ri.id_recipe = 2
@@ -115,11 +114,30 @@ FROM recipe r)
 
 /* Trouver les recettes qui ne nécessitent aucun ingrédient (par exemple la recette de la tasse d’eau 
 chaude qui consiste à verser de l’eau chaude dans une tasse) */
-
+SELECT r.recipe_name
+FROM recipe r
+LEFT JOIN recipe_ingredients ri ON r.id_recipe = ri.id_ingredient
+WHERE ri.id_ingredient IS NULL
 
 /* Trouver les ingrédients qui sont utilisés dans au moins 3 recettes */
+SELECT i.ingredient_name, COUNT(ri.id_ingredient) AS nbIngredients
+FROM recipe_ingredients ri
+INNER JOIN ingredient i ON ri.id_ingredient = i.id_ingredient
+GROUP BY i.ingredient_name
+HAVING nbIngredients >= 3
 
 /* Ajouter un nouvel ingrédient à une recette spécifique */
+INSERT INTO recipe_ingredients
+VALUES ("2", (SELECT i.id_ingredient FROM ingredient i WHERE i.id_ingredient = 52), "11")
 
 /*  Bonus : Trouver la recette la plus coûteuse de la base de données (il peut y avoir des ex aequo, il est 
 donc exclu d’utiliser la clause LIMIT) */
+SELECT r.recipe_name, ROUND(SUM(i.price * ri.quantity), 2) AS recipe_price
+FROM recipe r
+INNER JOIN recipe_ingredients ri ON ri.id_recipe = r.id_recipe
+INNER JOIN ingredient i ON ri.id_ingredient = i.id_ingredient
+GROUP BY r.recipe_name
+HAVING ROUND(SUM(i.price * ri.quantity), 2) >= ALL (SELECT ROUND(SUM(i.price * ri.quantity), 2)
+FROM ingredient i
+INNER JOIN recipe_ingredients ri ON i.id_ingredient = ri.id_ingredient
+GROUP BY ri.id_recipe)
